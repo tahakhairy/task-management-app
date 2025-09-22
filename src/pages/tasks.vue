@@ -1,9 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <UApp>
-    <RouterView />
-  </UApp>
+  <div>Tasks List</div>
 </template>
 
 <style scoped></style>
