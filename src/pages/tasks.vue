@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { getAllTasks } from '@/api'
 import TaskModal from '@/components/tasks/task-modal.vue'
 import Modal from '@/components/ui/modal.vue'
-import { markRaw } from 'vue'
+import type { Task } from '@/types'
+import { markRaw, onMounted, ref } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
 
 const overlay = useOverlay()
@@ -16,11 +18,20 @@ async function openModal() {
     componentProps: {} as ComponentProps<typeof TaskModal>,
   })
 }
+
+const tasks = ref<Task[]>([])
+
+onMounted(async () => {
+  const data = await getAllTasks()
+  console.log(data)
+
+  tasks.value = data
+})
 </script>
 
 <template>
-  <UContainer class="h-[calc(100vh-69px)] flex flex-col justify-center items-center">
-    <div class="flex justify-center items-center flex-col gap-4">
+  <UContainer>
+    <div v-if="!tasks.length" class="flex justify-center items-center flex-col gap-4">
       <p class="text-default">No tasks added yet, get something done!</p>
 
       <UButton
@@ -33,27 +44,9 @@ async function openModal() {
         Add Task
       </UButton>
     </div>
-    <!-- <div class="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4 my-5">
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-      <TaskCard />
-    </div> -->
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4 my-5">
+      <TaskCard v-for="task in tasks" :key="task.id" :task />
+    </div>
   </UContainer>
 </template>
 

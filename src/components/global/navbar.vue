@@ -2,7 +2,7 @@
 
 <template>
   <header
-    class="border-b sticky top-0 backdrop-blur border-default bg-default/75 h-[69px] flex justify-center items-center px-5 z-50"
+    class="border-b sticky top-0 backdrop-blur border-default bg-default/40 h-[69px] flex justify-center items-center px-5 z-50"
   >
     <div class="container flex justify-between mx-auto">
       <div class="flex justify-center items-center gap-2">

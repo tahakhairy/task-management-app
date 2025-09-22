@@ -28,9 +28,8 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+.env
 
 # Auto-generated type declarations
 auto-imports.d.ts
-components.d.
-
-.env
+components.d.ts
