@@ -44,7 +44,22 @@ onMounted(async () => {
         Add Task
       </UButton>
     </div>
-    <div class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4 my-5">
+
+    <div class="flex mt-7">
+      <UButton
+        class="ms-auto"
+        @click="openModal"
+        color="primary"
+        variant="solid"
+        icon="heroicons:plus-circle"
+        size="lg"
+      >
+        Add Task
+      </UButton>
+    </div>
+    <div
+      class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6 place-items-center place-content-center my-5"
+    >
       <TaskCard v-for="task in tasks" :key="task.id" :task />
     </div>
   </UContainer>

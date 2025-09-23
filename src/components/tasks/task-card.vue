@@ -1,23 +1,63 @@
 <script setup lang="ts">
+import { useCategoryStore } from '@/stores/category'
 import type { Task } from '@/types'
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   task: Task
 }>()
+
+const { getCategoryNameById, getCategoryColorById } = storeToRefs(useCategoryStore())
+
+const categoryBadgeColor = computed(() => getCategoryColorById.value(props.task.category_id))
+
+const priorityColor = computed(() => {
+  switch (props.task.priority) {
+    case 'high':
+      return 'error'
+    case 'medium':
+      return 'warning'
+    case 'low':
+      return 'info'
+    default:
+      return 'info'
+  }
+})
 </script>
 
 <template>
   <UCard variant="subtle">
     <template #header>
-      <div>
-        {{ task.category_id }}
-        <p class="font-medium">{{ task.title }}</p>
+      <div class="space-y-1.5">
+        <div v-if="task.priority" class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <UChip :color="priorityColor" size="lg" standalone inset />
+            <p class="capitalize text-xs font-medium">{{ task.priority }}</p>
+          </div>
+
+          <UBadge
+            size="sm"
+            v-if="getCategoryNameById(task.category_id)"
+            :style="{ backgroundColor: `${categoryBadgeColor}` }"
+            >{{ getCategoryNameById(task.category_id) }}</UBadge
+          >
+        </div>
+
+        <p class="font-bold capitalize text-sm">{{ task.title }}</p>
       </div>
     </template>
 
-    <div class="min-h-32">{{ task.description }}</div>
+    <div class="space-y-1.5">
+      <img class="rounded-lg object-cover" :src="task.image_url" :alt="`${task.title}-image`" />
+      <p class="text-sm text-slate-600">{{ task.description }}</p>
+    </div>
 
-    <template #footer> </template>
+    <template #footer>
+      <div>
+        <p class="font-medium text-xs">Due: {{ task.due_date }}</p>
+      </div>
+    </template>
   </UCard>
 </template>
 
