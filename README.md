@@ -35,6 +35,7 @@ State management: Pinia
 Data fetching: TanstackQuery
 
 ## Components Overview
+```
 .
 └── src/
     └── components/
@@ -52,3 +53,4 @@ Data fetching: TanstackQuery
             ├── form/
             │   └── date-picker
             └── modal
+```
