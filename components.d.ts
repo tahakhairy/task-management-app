@@ -9,7 +9,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     DatePicker: typeof import('./src/components/ui/form/date-picker.vue')['default']
-    FormField: typeof import('./src/components/ui/form/form-field.vue')['default']
     Modal: typeof import('./src/components/ui/modal.vue')['default']
     Navbar: typeof import('./src/components/global/navbar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -21,8 +20,6 @@ declare module 'vue' {
     TaskModal: typeof import('./src/components/tasks/task-modal.vue')['default']
     TaskPriority: typeof import('./src/components/tasks/task-priority.vue')['default']
     TaskSkeleton: typeof import('./src/components/tasks/task-skeleton.vue')['default']
-    Textarea: typeof import('./src/components/ui/form/textarea.vue')['default']
-    TextInput: typeof import('./src/components/ui/form/text-input.vue')['default']
     UApp: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/App.vue')['default']
     UBadge: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Badge.vue')['default']
     UBreadcrumb: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Breadcrumb.vue')['default']
@@ -36,7 +33,6 @@ declare module 'vue' {
     UIcon: typeof import('./node_modules/@nuxt/ui/dist/runtime/vue/components/Icon.vue')['default']
     UInput: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Input.vue')['default']
     UModal: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Modal.vue')['default']
-    UPagination: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Pagination.vue')['default']
     UPopover: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Popover.vue')['default']
     USelect: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Select.vue')['default']
     USkeleton: typeof import('./node_modules/@nuxt/ui/dist/runtime/components/Skeleton.vue')['default']
