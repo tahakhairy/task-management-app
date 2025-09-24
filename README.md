@@ -28,12 +28,11 @@ VITE_APP_AUTH_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSI
 npm run build
 ```
 ## Framework and Tools
-Farmework: Vue.js
-Ui library: Nuxt Ui 
-Styling: Tailwindcss
-State management: Pinia
-Data fetching: TanstackQuery
-
+- Farmework: Vue.js
+- Ui library: Nuxt Ui
+- Styling: Tailwindcss
+- State management: Pinia
+- Data fetching: TanstackQuery
 ## Components Overview
 ```
 .
