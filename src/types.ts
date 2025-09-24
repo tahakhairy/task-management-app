@@ -27,3 +27,12 @@ export interface Task {
   created_at: string
   updated_at: string
 }
+
+export interface TaskFormData {
+  title: string | undefined
+  description: string | undefined
+  priority: string | undefined
+  category_id: number | undefined
+  image_url: string | undefined
+  due_date: string | undefined
+}

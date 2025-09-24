@@ -8,6 +8,11 @@ const props = defineProps<{
   task: Task
 }>()
 
+const emit = defineEmits<{
+  (e: 'edit', task: Task): () => void
+  (e: 'delete', task: Task): () => void
+}>()
+
 const { getCategoryNameById, getCategoryColorById } = storeToRefs(useCategoryStore())
 
 const categoryBadgeColor = computed(() => getCategoryColorById.value(props.task.category_id))
@@ -29,7 +34,7 @@ const priorityColor = computed(() => {
 <template>
   <UCard variant="subtle">
     <template #header>
-      <div class="space-y-1.5">
+      <div class="space-y-1.5 min-h-16">
         <div v-if="task.priority" class="flex items-center justify-between">
           <div class="flex items-center gap-1.5">
             <UChip :color="priorityColor" size="lg" standalone inset />
@@ -48,14 +53,34 @@ const priorityColor = computed(() => {
       </div>
     </template>
 
-    <div class="space-y-1.5">
+    <div class="space-y-1.5 overflow-auto min-h-[280px]">
       <img class="rounded-lg object-cover" :src="task.image_url" :alt="`${task.title}-image`" />
-      <p class="text-sm text-slate-600">{{ task.description }}</p>
+      <p class="text-sm text-default/80">{{ task.description }}</p>
     </div>
 
     <template #footer>
-      <div>
-        <p class="font-medium text-xs">Due: {{ task.due_date }}</p>
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="font-medium text-xs">Due: {{ task.due_date ?? 'N/A' }}</p>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <UButton
+            icon="heroicons:pencil-square-16-solid"
+            size="sm"
+            class="rounded-full"
+            variant="outline"
+            @click="emit('edit', task)"
+          ></UButton>
+
+          <UButton
+            icon="heroicons:trash-16-solid"
+            size="sm"
+            class="rounded-full"
+            variant="outline"
+            color="error"
+            @click="emit('delete', task)"
+          ></UButton>
+        </div>
       </div>
     </template>
   </UCard>
