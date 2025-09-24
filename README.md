@@ -78,3 +78,8 @@ npm run build
 - Fetch and display categories from API
 - Use category colors for visual distinction
 - Display category icons where appropriate
+## Screenshots
+<img width="1910" height="1115" alt="Screenshot 2025-09-24 161150" src="https://github.com/user-attachments/assets/8f264868-a363-449d-8b0d-290ca0246714" />
+
+<img width="1879" height="645" alt="image" src="https://github.com/user-attachments/assets/f71017fa-0d30-4d50-b9d9-1989aa97c9d7" />
+
