@@ -7,14 +7,16 @@ import { storeToRefs } from 'pinia'
 import { computed, ref } from 'vue'
 
 const categoryFilter = ref()
+const offset = ref(0)
 
 const { data: tasks, isLoading } = useFetch({
-  queryKey: ['tasks', categoryFilter],
+  queryKey: ['tasks', categoryFilter, offset],
   queryFn: () =>
     getAllTasks(
       categoryFilter.value && categoryFilter.value !== 'all'
         ? `eq.${categoryFilter.value}`
         : undefined,
+      offset.value,
     ),
 })
 
@@ -23,17 +25,27 @@ const { openDeleteModal, openTaskModal } = useTaskActions()
 const { categories } = storeToRefs(useCategoryStore())
 
 const categoriesList = computed(() => {
+  if (!categories.value?.length) return []
+
   const allCategories = categories.value?.map((category) => ({
     label: category.name,
     value: `${category.id}`,
   }))
 
-  return [{ label: 'All', value: 'all' }, ...allCategories!]
+  return [{ label: 'All', value: 'all' }, ...allCategories]
 })
+
+function nextPage() {
+  offset.value += 10
+}
+
+function pervPage() {
+  offset.value -= 10
+}
 </script>
 
 <template>
-  <UContainer>
+  <UContainer class="flex flex-col">
     <div
       v-if="!tasks?.length && !isLoading"
       class="flex justify-center items-center flex-col gap-4"
@@ -90,6 +102,17 @@ const categoriesList = computed(() => {
           @delete="(task) => openDeleteModal(task)"
         />
       </div>
+    </div>
+
+    <div class="flex items-center ms-auto gap-2.5 py-4">
+      <UButton
+        :disabled="offset === 0"
+        label="Prev"
+        variant="outline"
+        color="neutral"
+        @click="pervPage"
+      />
+      <UButton label="Next" variant="outline" color="neutral" @click="nextPage" />
     </div>
   </UContainer>
 </template>

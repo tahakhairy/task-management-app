@@ -9,15 +9,16 @@ export const getAllCategroies = () => {
   })
 }
 
-export const getAllTasks = (category_id?: string) => {
+export const getAllTasks = (category_id?: string, offset = 0) => {
   const params =
     category_id && category_id !== 'all'
       ? {
           limit: 10,
+          offset,
           order: 'created_at.desc',
           category_id,
         }
-      : { limit: 10, order: 'created_at.desc' }
+      : { limit: 10, offset, order: 'created_at.desc' }
   return intercept<Task[]>('tasks', params)
 }
 
