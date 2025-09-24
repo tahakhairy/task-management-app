@@ -16,6 +16,12 @@ export const getAllTasks = () => {
   })
 }
 
+export const getTaskById = (taskId: number | string) => {
+  return intercept<Task[]>('tasks', {
+    id: `eq.${taskId}`,
+  })
+}
+
 export const addTask = (task: TaskFormData) => {
   return intercept<Task>('tasks', undefined, {
     method: 'POST',
@@ -23,7 +29,7 @@ export const addTask = (task: TaskFormData) => {
   })
 }
 
-export const updateTask = (taskId: number, task: TaskFormData) => {
+export const updateTask = (taskId: number | string, task: TaskFormData) => {
   return intercept<Task>(
     'tasks',
     {

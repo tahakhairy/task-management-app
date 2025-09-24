@@ -6,6 +6,11 @@ const router = createRouter({
       path: '/',
       component: () => import('@/pages/tasks.vue'),
     },
+    {
+      path: '/task/:id',
+      name: 'taskDetails',
+      component: () => import('@/pages/task-detail.vue'),
+    },
   ],
   history: createWebHistory(),
 })

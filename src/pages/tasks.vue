@@ -1,42 +1,14 @@
 <script setup lang="ts">
 import { getAllTasks } from '@/api'
-import TaskDeleteModal from '@/components/tasks/task-delete-modal.vue'
-import TaskModal from '@/components/tasks/task-modal.vue'
-import Modal from '@/components/ui/modal.vue'
 import { useFetch } from '@/composables/useFetch'
-import type { Task } from '@/types'
-import { markRaw } from 'vue'
-import type { ComponentProps } from 'vue-component-type-helpers'
-
-const overlay = useOverlay()
-
-const modal = overlay.create(Modal)
+import { useTaskActions } from '@/composables/useTaskActions'
 
 const { data: tasks, isLoading } = useFetch({
   queryKey: ['tasks'],
   queryFn: () => getAllTasks(),
 })
 
-function openTaskModal(task?: Task) {
-  modal.open({
-    title: `${task ? 'Update' : 'Add'} Task`,
-    description: `${task ? 'Update current opened' : 'Add new'} task`,
-    component: markRaw(TaskModal),
-    componentProps: {
-      task,
-    } as ComponentProps<typeof TaskModal>,
-  })
-}
-
-function openDeleteModal(task: Task) {
-  modal.open({
-    title: `Delete ${task.title}`,
-    component: markRaw(TaskDeleteModal),
-    componentProps: {
-      taskId: task.id,
-    } as ComponentProps<typeof TaskDeleteModal>,
-  })
-}
+const { openDeleteModal, openTaskModal } = useTaskActions()
 </script>
 
 <template>
@@ -80,6 +52,7 @@ function openDeleteModal(task: Task) {
           v-for="task in tasks"
           :key="task.id"
           :task
+          @view="$router.push({ name: 'taskDetails', params: { id: task.id } })"
           @edit="(task) => openTaskModal(task)"
           @delete="(task) => openDeleteModal(task)"
         />

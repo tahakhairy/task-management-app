@@ -10,12 +10,9 @@ export const useCategoryStore = defineStore('category', {
   },
 
   getters: {
-    getCategoryNameById(state) {
-      return (id: number) => state.categories?.find((category) => category.id === id)?.name
-    },
-
-    getCategoryColorById(state) {
-      return (id: number) => state.categories?.find((category) => category.id === id)?.color
+    getCategoryPropertyById(state) {
+      return (id: number, prop: keyof Category) =>
+        state.categories?.find((category) => category.id === id)?.[prop]
     },
   },
 

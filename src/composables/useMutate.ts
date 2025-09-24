@@ -31,5 +31,5 @@ export default function useMutate<T, V>({ mutationFn, mutationKey, queryKey }: O
     },
   })
 
-  return { ...mutation }
+  return { ...mutation, queryClient }
 }

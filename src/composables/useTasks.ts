@@ -1,6 +1,7 @@
 import { addTask, updateTask } from '@/api'
 import type { Task } from '@/types'
 import type { FormSubmitEvent } from '@nuxt/ui'
+import { useRoute } from 'vue-router'
 import { number, object, string, type InferType } from 'yup'
 import useMutate from './useMutate'
 
@@ -9,6 +10,8 @@ const toast = useToast()
 const modal = useOverlay()
 
 export const useTasks = (task?: Task) => {
+  const route = useRoute()
+
   const schema = object().shape({
     title: string().required('Title is required'),
     category_id: number().required('Category is required'),
@@ -20,7 +23,7 @@ export const useTasks = (task?: Task) => {
 
   type Schema = InferType<typeof schema>
 
-  const { mutate, isPending } = useMutate({
+  const { mutate, isPending, queryClient } = useMutate({
     mutationKey: [task ? 'edit-task' : 'add-task'],
     queryKey: ['tasks'],
     mutationFn: (values) => {
@@ -35,9 +38,14 @@ export const useTasks = (task?: Task) => {
   async function onSubmit({ data }: FormSubmitEvent<Schema>) {
     mutate(data, {
       onSuccess() {
+        if (route.params.id) {
+          queryClient.invalidateQueries({
+            queryKey: [`task/${task?.id}`],
+          })
+        }
         toast.add({
           title: 'Success',
-          description: 'The form has been submitted.',
+          description: `Task ${task ? 'updated' : 'added'} successfully`,
           color: 'success',
         })
 

@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { deleteTask } from '@/api'
 import useMutate from '@/composables/useMutate'
+import { useRoute, useRouter } from 'vue-router'
 
 const props = defineProps<{
   taskId: number
 }>()
+
+const route = useRoute()
+
+const router = useRouter()
 
 const toast = useToast()
 
@@ -20,13 +25,16 @@ function confirmDelete() {
   mutate(
     {},
     {
-      onSuccess() {
+      async onSuccess() {
         modal.closeAll()
         toast.add({
           title: 'Task Deleted',
           description: 'Task deleted successfully',
           color: 'info',
         })
+        if (route.params.id) {
+          await router.push('/')
+        }
       },
     },
   )

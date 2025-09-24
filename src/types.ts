@@ -35,4 +35,5 @@ export interface TaskFormData {
   category_id: number | undefined
   image_url: string | undefined
   due_date: string | undefined
+  completed: boolean
 }

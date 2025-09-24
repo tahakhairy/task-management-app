@@ -3,6 +3,7 @@ import { useCategoryStore } from '@/stores/category'
 import type { Task } from '@/types'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
+import TaskPriority from './task-priority.vue'
 
 const props = defineProps<{
   task: Task
@@ -11,24 +12,14 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'edit', task: Task): () => void
   (e: 'delete', task: Task): () => void
+  (e: 'view'): () => void
 }>()
 
-const { getCategoryNameById, getCategoryColorById } = storeToRefs(useCategoryStore())
+const { getCategoryPropertyById } = storeToRefs(useCategoryStore())
 
-const categoryBadgeColor = computed(() => getCategoryColorById.value(props.task.category_id))
-
-const priorityColor = computed(() => {
-  switch (props.task.priority) {
-    case 'high':
-      return 'error'
-    case 'medium':
-      return 'warning'
-    case 'low':
-      return 'info'
-    default:
-      return 'info'
-  }
-})
+const categoryBadgeColor = computed(() =>
+  getCategoryPropertyById.value(props.task.category_id, 'color'),
+)
 </script>
 
 <template>
@@ -36,16 +27,13 @@ const priorityColor = computed(() => {
     <template #header>
       <div class="space-y-1.5 min-h-16">
         <div v-if="task.priority" class="flex items-center justify-between">
-          <div class="flex items-center gap-1.5">
-            <UChip :color="priorityColor" size="lg" standalone inset />
-            <p class="capitalize text-xs font-medium">{{ task.priority }}</p>
-          </div>
+          <TaskPriority :task />
 
           <UBadge
             size="sm"
-            v-if="getCategoryNameById(task.category_id)"
+            v-if="getCategoryPropertyById(task.category_id, 'name')"
             :style="{ backgroundColor: `${categoryBadgeColor}` }"
-            >{{ getCategoryNameById(task.category_id) }}</UBadge
+            >{{ getCategoryPropertyById(task.category_id, 'name') }}</UBadge
           >
         </div>
 
@@ -65,12 +53,21 @@ const priorityColor = computed(() => {
         </div>
         <div class="flex items-center gap-1.5">
           <UButton
+            icon="heroicons:eye-16-solid"
+            size="sm"
+            class="rounded-full"
+            variant="outline"
+            @click="emit('view')"
+          />
+
+          <UButton
             icon="heroicons:pencil-square-16-solid"
             size="sm"
             class="rounded-full"
             variant="outline"
+            color="neutral"
             @click="emit('edit', task)"
-          ></UButton>
+          />
 
           <UButton
             icon="heroicons:trash-16-solid"
@@ -79,7 +76,7 @@ const priorityColor = computed(() => {
             variant="outline"
             color="error"
             @click="emit('delete', task)"
-          ></UButton>
+          />
         </div>
       </div>
     </template>
