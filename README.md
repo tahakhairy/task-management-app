@@ -54,3 +54,28 @@ Data fetching: TanstackQuery
             │   └── date-picker
             └── modal
 ```
+## Features
+
+**Task List View**
+- Display tasks in cards/list with title, description, category, completion status
+- Show task images with proper loading and error states
+- Category-based filtering (dropdown or tabs)
+- Loading states during data fetching
+- Add Task button/CTA
+
+**Add/Edit Task Form**
+- Form validation with error messages
+- Save/Cancel functionality
+- Show loading state during submission
+
+**Task Detail View**
+- Display full task information
+- Toggle completion status
+- Edit and Delete actions
+- Handle image display with fallback
+- Navigate back to list
+
+**Category Integration**
+- Fetch and display categories from API
+- Use category colors for visual distinction
+- Display category icons where appropriate
