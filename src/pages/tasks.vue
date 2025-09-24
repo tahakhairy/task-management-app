@@ -2,13 +2,34 @@
 import { getAllTasks } from '@/api'
 import { useFetch } from '@/composables/useFetch'
 import { useTaskActions } from '@/composables/useTaskActions'
+import { useCategoryStore } from '@/stores/category'
+import { storeToRefs } from 'pinia'
+import { computed, ref } from 'vue'
+
+const categoryFilter = ref()
 
 const { data: tasks, isLoading } = useFetch({
-  queryKey: ['tasks'],
-  queryFn: () => getAllTasks(),
+  queryKey: ['tasks', categoryFilter],
+  queryFn: () =>
+    getAllTasks(
+      categoryFilter.value && categoryFilter.value !== 'all'
+        ? `eq.${categoryFilter.value}`
+        : undefined,
+    ),
 })
 
 const { openDeleteModal, openTaskModal } = useTaskActions()
+
+const { categories } = storeToRefs(useCategoryStore())
+
+const categoriesList = computed(() => {
+  const allCategories = categories.value?.map((category) => ({
+    label: category.name,
+    value: `${category.id}`,
+  }))
+
+  return [{ label: 'All', value: 'all' }, ...allCategories!]
+})
 </script>
 
 <template>
@@ -31,7 +52,19 @@ const { openDeleteModal, openTaskModal } = useTaskActions()
     </div>
 
     <div v-else>
-      <div class="flex mt-7">
+      <div class="flex mt-7 items-center">
+        <div class="flex items-center gap-2">
+          <UIcon name="heroicons:funnel-16-solid" class="size-5 text-primary" />
+          <UFormField class="w-[200px]" name="category_id" id="category_id">
+            <USelect
+              placeholder="Filter by category"
+              :items="categoriesList"
+              class="w-full"
+              v-model="categoryFilter"
+            >
+            </USelect>
+          </UFormField>
+        </div>
         <UButton
           class="ms-auto"
           @click="() => openTaskModal()"

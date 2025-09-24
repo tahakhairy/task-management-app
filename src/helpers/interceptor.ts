@@ -7,7 +7,7 @@ const toast = useToast()
 
 export async function intercept<T>(
   endpoint: string,
-  queryParams: Record<string, string | number> = {},
+  queryParams: Record<string, string | number | undefined> = {},
   options?: RequestInit,
 ): Promise<T> {
   // Construct query string from queryParams object
@@ -17,7 +17,7 @@ export async function intercept<T>(
 
       if (value === null || value === undefined) return ''
 
-      return `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`
+      return `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key]!)}`
     })
     .join('&')
 
