@@ -1,18 +1,7 @@
-# task-management-app
+# Task Management App
+<img width="2534" height="1288" alt="image" src="https://github.com/user-attachments/assets/bd657349-b157-4af1-b1fa-1fa83acaed73" />
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
+Task Management App with Vue.js
 
 ## Project Setup
 
@@ -26,8 +15,77 @@ npm install
 npm run dev
 ```
 
+### env variables
+For local development you need to add these variables to your env file
+```
+VITE_APP_BASE_URL=https://kbybdtacoqvgcijrkzkv.supabase.co/rest/v1/
+VITE_APP_AUTH_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtieWJkdGFjb3F2Z2NpanJremt2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYwMzUwNjAsImV4cCI6MjA3MTYxMTA2MH0.SAF_9jupuaVLHq0l7Zbew7t6avUdg_UkdVGqLZmHTQE
+```
+
 ### Type-Check, Compile and Minify for Production
 
 ```sh
 npm run build
 ```
+## Framework and Tools
+- Farmework: Vue.js
+- Ui library: Nuxt Ui
+- Styling: Tailwindcss
+- State management: Pinia
+- Data fetching: TanstackQuery
+## Components Overview
+```
+.
+└── src/
+    └── components/
+        ├── global/
+        │   └── navbar
+        ├── tasks/
+        │   ├── task-card
+        │   ├── task-category
+        │   ├── task-delete-modal
+        │   ├── task-form
+        │   ├── task-modal
+        │   ├── task-priority
+        │   └── task-skeleton
+        └── ui/
+            ├── form/
+            │   └── date-picker
+            └── modal
+```
+## Features
+
+**Task List View**
+- Display tasks in cards/list with title, description, category, completion status
+- Show task images with proper loading and error states
+- Category-based filtering (dropdown or tabs)
+- Loading states during data fetching
+- Add Task button/CTA
+
+**Add/Edit Task Form**
+- Form validation with error messages
+- Save/Cancel functionality
+- Show loading state during submission
+
+**Task Detail View**
+- Display full task information
+- Toggle completion status
+- Edit and Delete actions
+- Handle image display with fallback
+- Navigate back to list
+
+**Category Integration**
+- Fetch and display categories from API
+- Use category colors for visual distinction
+- Display category icons where appropriate
+## Screenshots
+<img width="1910" height="1115" alt="Screenshot 2025-09-24 161150" src="https://github.com/user-attachments/assets/8f264868-a363-449d-8b0d-290ca0246714" />
+
+<img width="1879" height="645" alt="image" src="https://github.com/user-attachments/assets/f71017fa-0d30-4d50-b9d9-1989aa97c9d7" />
+
+<img width="1619" height="1012" alt="image" src="https://github.com/user-attachments/assets/a99f89af-e713-4c2a-a14c-5205efc8ba20" />
+
+<img width="1674" height="751" alt="image" src="https://github.com/user-attachments/assets/0d96a2b3-7524-422b-b38e-25e10197127b" />
+
+
+
