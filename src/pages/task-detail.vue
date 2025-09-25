@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { getTaskById, updateTask } from '@/api'
+import { getTaskById } from '@/api'
 import TaskCategory from '@/components/tasks/task-category.vue'
 import TaskPriority from '@/components/tasks/task-priority.vue'
 import { useFetch } from '@/composables/useFetch'
-import useMutate from '@/composables/useMutate'
 import { useTaskActions } from '@/composables/useTaskActions'
-import type { TaskFormData } from '@/types'
+import { useToggleTaskStatus } from '@/composables/useToggleTaskStatus'
 import type { BreadcrumbItem } from '@nuxt/ui'
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -19,6 +18,8 @@ const { data, isLoading } = useFetch({
 })
 
 const { openDeleteModal, openTaskModal } = useTaskActions()
+
+const { isPending, toggleCompletion } = useToggleTaskStatus()
 
 const task = computed(() => data.value?.[0])
 
@@ -34,22 +35,6 @@ const breadcrumItems = ref<BreadcrumbItem[]>([
     icon: 'heroicons:clipboard-document-check-solid',
   },
 ])
-
-const { mutate, isPending } = useMutate({
-  queryKey: [`task/${taskId}`],
-  mutationKey: ['toggle-status'],
-  mutationFn: (task: TaskFormData) => updateTask(taskId, task),
-})
-
-const toggleCompletion = () => {
-  const { id, ...rest } = task.value!
-  mutate(
-    { ...rest, completed: !task.value?.completed },
-    {
-      onSuccess() {},
-    },
-  )
-}
 </script>
 
 <template>
@@ -105,7 +90,7 @@ const toggleCompletion = () => {
             label="Completed"
             :modelValue="task?.completed"
             :loading="isPending"
-            @change="toggleCompletion"
+            @change="toggleCompletion(task!)"
           />
         </div>
       </UCard>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useToggleTaskStatus } from '@/composables/useToggleTaskStatus'
 import { useCategoryStore } from '@/stores/category'
 import type { Task } from '@/types'
 import { storeToRefs } from 'pinia'
@@ -14,6 +15,8 @@ const emit = defineEmits<{
   (e: 'delete', task: Task): () => void
   (e: 'view'): () => void
 }>()
+
+const { isPending, toggleCompletion } = useToggleTaskStatus()
 
 const { getCategoryPropertyById } = storeToRefs(useCategoryStore())
 
@@ -41,9 +44,18 @@ const categoryBadgeColor = computed(() =>
       </div>
     </template>
 
-    <div class="space-y-1.5 overflow-auto min-h-[280px]">
+    <div class="space-y-1.5 overflow-auto min-h-[280px] flex flex-col gap-2">
       <img class="rounded-lg object-cover" :src="task.image_url" :alt="`${task.title}-image`" />
       <p class="text-sm text-default/80">{{ task.description }}</p>
+
+      <div class="mt-auto">
+        <USwitch
+          label="Completed"
+          :modelValue="task?.completed"
+          :loading="isPending"
+          @change="toggleCompletion(task)"
+        />
+      </div>
     </div>
 
     <template #footer>
